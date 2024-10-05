@@ -17,6 +17,3 @@ Route::get('/about', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
 });
-
-
-
