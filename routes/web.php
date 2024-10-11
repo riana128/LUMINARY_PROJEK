@@ -12,3 +12,10 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+    Route::resource('/products', \App\Http\Controllers\Admin\Products\ProductController::class);
+});

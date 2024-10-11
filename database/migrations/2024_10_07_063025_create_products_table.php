@@ -11,15 +11,21 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image');
             $table->text('description');
             $table->decimal('price', 10, 2); // Harga produk
             $table->integer('stock'); // Stok produk
-            $table->boolean('status')->default(true); // Status produk (aktif/tidak aktif)
-            $table->foreignId('category_id')->constrained()->onDelete('cascade'); // Foreign key kategori
-            // Hapus seller_id jika tidak diperlukan
-            // $table->foreignId('seller_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_products_id'); // Foreign key column
             $table->timestamps();
+
+            // Set foreign key constraint
+            $table->foreign('category_products_id')
+            ->references('id')
+            ->on('category_products')
+            ->onDelete('cascade');
         });
+
+        
     }
 
     public function down()

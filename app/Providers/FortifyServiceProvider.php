@@ -29,7 +29,11 @@ class FortifyServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+    {   
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
+
         // Mengatur tampilan login
         Fortify::loginView(function () {
             return view('auth.login');
@@ -45,6 +49,16 @@ class FortifyServiceProvider extends ServiceProvider
 
             return null;
         });
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.forgot-password');
+        });
+
+        Fortify::resetPasswordView(function (Request $request) {
+            return view('auth.reset-password', ['request' => $request]);
+        });
+
+        
 
         // Mengatur pembuatan pengguna baru (register)
         Fortify::createUsersUsing(CreateNewUser::class);
