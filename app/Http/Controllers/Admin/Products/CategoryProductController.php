@@ -26,12 +26,18 @@ class CategoryProductController extends Controller
     {
         // Validasi input
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'           => 'required|string|max:255',
+            'image'          => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ]);
+
+        // Upload image
+        $image = $request->file('image');
+        $imagePath = $image->storeAs('public/categoryproducts/', $image->hashName());
 
         // Menyimpan kategori
         CategoryProduct::create([
-            'name' => $request->name,
+            'name'                 => $request->name,
+            'image'                => $image->hashName(),
         ]);
 
         // Redirect dengan pesan sukses
@@ -50,13 +56,32 @@ class CategoryProductController extends Controller
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
+            'image'                => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
+        // If a new image is uploaded, handle the image update
+        if ($request->hasFile('image')) {
+            // Delete the old image
+            Storage::delete('public/categoryproducts/' . $categoryproduct->image);
+
+            // Upload new image
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('public/categoryproducts/', $image->hashName());
+
         // Update kategori
+        $categoryproduct->update([
+            'name'              => $request->name,
+            'image'             => $image->hashName(),
+        ]);
+    } else {
+        //ubah category product tanpa image
         $categoryproduct->update([
             'name' => $request->name,
         ]);
 
+        $product->save();
+
+    }
         // Redirect dengan pesan sukses
         return redirect()->route('admin.categoryproduct.index')->with('success', 'Kategori produk berhasil diperbarui.');
     }

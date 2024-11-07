@@ -14,8 +14,10 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->text('description');
             $table->decimal('price', 10, 2); // Harga produk
+            $table->decimal('discount', 5, 2); // Harga discount berdasarkan percent
             $table->integer('stock'); // Stok produk
             $table->foreignId('category_products_id'); // Foreign key column
+            $table->enum('status_produk', ['draft', 'public']);
             $table->timestamps();
 
             // Set foreign key constraint

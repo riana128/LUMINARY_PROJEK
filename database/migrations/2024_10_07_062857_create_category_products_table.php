@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('category_products', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Nama kategori
+            $table->string('name');
+            $table->string('image');
             $table->timestamps();
         });
     }
