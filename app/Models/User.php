@@ -44,4 +44,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+//baru ditambahin
+    public function dataBuyer()
+    {
+    return $this->hasOne(DataBuyer::class);
+    }
+
 }
